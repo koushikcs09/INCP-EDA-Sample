@@ -598,12 +598,12 @@ def plot_stat(df_categorical,title_name,target_col):
 
     df_plot.plot(x='Levels',y='Volume(%)',kind='bar',width=width,label=('Volume(%)'),color='b')
     plt.ylabel('Volume(%)',color='b')
-    plt.ylim((0,2))
+    plt.ylim((0,4))
     plt.legend(loc='upper right')
 
     df_plot['Avg_Call_Volume'].plot(secondary_y=True,label=('Avg_Call_Volume'),color='r',rot=90)
     plt.ylabel('Avg_Call_Volume',color='r')
-    plt.ylim((0,2))
+    plt.ylim((0,4))
     plt.legend(loc='upper right')
     
     axis_1=plt.gca()
@@ -775,7 +775,7 @@ def cat_bin(df,df_categorical,target_col,filename):
             categorical_target_nx.to_excel(writer,sheet_name='Categorical',startrow=n+1 , startcol=0,index = False)
             n += len(categorical_target_nx.index) + 10
 
-    writer.save()      
+    writer.save()    
 ```
 
 # Continuous Feature WOE,IV
