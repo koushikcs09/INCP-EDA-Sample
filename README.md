@@ -164,7 +164,7 @@ add_table_plot(df_cont,in_file="Continuous_Base.xlsx",sheet_nm='Continous',targe
 # Continuous_Field_Rank_Plot_Regression.py
 # *****************************************
 ```python
-################ Continuous Field Rank and Plot for Regression Model #################
+```################ Continuous Field Rank and Plot for Regression Model #################```
 import xlsxwriter
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -557,7 +557,7 @@ add_table_plot(df,in_file= "Categorical_Base.xlsx",sheet_nm='Categorical',target
 # Categorical_Field_Rank_Plot_Regression.py
 # *****************************************
 ```python
- Categorical field Descriptive statistics with PLOT for Regression Model
+ ````Categorical field Descriptive statistics with PLOT for Regression Model```
 import xlsxwriter
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -1079,11 +1079,12 @@ from Categorical_Field_WOE_IV_Regression import *
 cat_bin(df,df_cat,target_col=target_nm,filename="Categorical_WOE.xlsx")
 df=automate_woe_population(df,df_cat,filename="Categorical_WOE.xlsx")
 ```
-```python
+
 # *****************************************
 # Categorical_Field_WOE_IV_Regression.py
 # *****************************************
- Categorical Field : Weight of Evidence and IV calcualtion for Regression Model '''
+```python
+ ```Categorical Field : Weight of Evidence and IV calcualtion for Regression Model '''
 import xlsxwriter
 import os
 import math
