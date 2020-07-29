@@ -204,7 +204,7 @@ def plot_stat(df_continuous,title_name,target_col):
     ''' Line Plot '''
     width=0.35
     df_plot['Volume(%)']=df_plot['Volume(%)']*100
-    df_plot['Avg_Call_Volume']=df_plot['Avg_Call_Volume']
+    df_plot['Avg_Response']=df_plot['Avg_Response']
 
     df_plot.plot(x='BINS',y='Volume(%)',kind='bar',width=width,label=('Volume(%)'),color='b')
     plt.ylabel('Volume(%)',color='b')
@@ -212,8 +212,8 @@ def plot_stat(df_continuous,title_name,target_col):
 
     plt.legend(loc='upper right')
 
-    df_plot['Avg_Call_Volume'].plot(secondary_y=True,label=('Avg_Call_Volume'),color='r')
-    plt.ylabel('Avg_Call_Volume',color='r')
+    df_plot['Avg_Response'].plot(secondary_y=True,label=('Avg_Response'),color='r')
+    plt.ylabel('Avg_Response',color='r')
     plt.ylim((0,100))
     plt.legend(loc='upper right')
     
@@ -225,7 +225,7 @@ def plot_stat(df_continuous,title_name,target_col):
         axis_1.annotate('%s' %j,xy=(i,j),color='k')
         axis_1.annotate('%s' %i,xy=(i,j),color='k')
         
-    for i,j in zip(df_plot['Avg_Call_Volume'].index,df_plot['Avg_Call_Volume']):
+    for i,j in zip(df_plot['Avg_Response'].index,df_plot['Avg_Response']):
         i=round(i,2)
         j=round(j,2)
         axis_1.annotate('%s' %j,xy=(i,j),color='k')
@@ -260,7 +260,7 @@ def add_table_plot(df_continuous,in_file,sheet_nm,out_file,target_col):
     
     work_dir=os.getcwd()
     df_cont=pd.read_excel(in_file,header=None,sheet_name=sheet_nm)
-    df_cont.columns=['BINS','MIN','MAX','Range','Avg_Call_Volume','TOTAL','Volume(%)']
+    df_cont.columns=['BINS','MIN','MAX','Range','Avg_Response','TOTAL','Volume(%)']
     df_cont=df_cont.fillna('')
     wb=xlsxwriter.Workbook(out_file)
     ws=wb.add_worksheet(sheet_nm)
@@ -301,7 +301,7 @@ def add_table_plot(df_continuous,in_file,sheet_nm,out_file,target_col):
         if df_cont.iloc[:,0][i] == "Total":
             pos_max_loc=i
             df_plot=df_cont[pos_min_loc:pos_max_loc]
-            df_plot.columns=['BINS','MIN','MAX','Range','Avg_Call_Volume','TOTAL','Volume(%)']
+            df_plot.columns=['BINS','MIN','MAX','Range','Avg_Response','TOTAL','Volume(%)']
             df_plot=df_plot.reset_index()
             
             ''' Calls plot_stat() to create line plot and scatter plot '''
@@ -435,7 +435,7 @@ def cont_bin_Miss(df_dcl_fnl,df_continuous_column,i,target_col,filename):
          df_dcl_fnl.groupby('Decile')[target_col].mean(),
          df_dcl_fnl.groupby('Decile')[df_continuous_column[i]].count()]
         ).T
-    continuous_target_nx.columns = ["MIN","MAX","Avg_Call_Volume","TOTAL"]
+    continuous_target_nx.columns = ["MIN","MAX","Avg_Response","TOTAL"]
     
     continuous_target_nx=continuous_target_nx.reset_index()
     list1=[]
@@ -448,7 +448,7 @@ def cont_bin_Miss(df_dcl_fnl,df_continuous_column,i,target_col,filename):
 
     continuous_target_nx = pd.concat([pd.Series(list1),continuous_target_nx,pd.Series(list_vol_pct)],axis=1)
 
-    continuous_target_nx = continuous_target_nx[["Decile","MIN","MAX",0,"Avg_Call_Volume","TOTAL",1]]
+    continuous_target_nx = continuous_target_nx[["Decile","MIN","MAX",0,"Avg_Response","TOTAL",1]]
 
     continuous_target_nx = continuous_target_nx.rename(columns={continuous_target_nx.columns[len(continuous_target_nx.keys())-4]: "Range"})
     continuous_target_nx = continuous_target_nx.rename(columns={continuous_target_nx.columns[len(continuous_target_nx.keys())-1]: "Volume(%)"})
@@ -460,7 +460,7 @@ def cont_bin_Miss(df_dcl_fnl,df_continuous_column,i,target_col,filename):
                                  "Range":" ",
                                  "TOTAL":continuous_target_nx['TOTAL'].sum(),
                                  "Volume(%)":continuous_target_nx['Volume(%)'].sum(),
-                                 "Avg_Call_Volume":df_dcl_fnl[target_col].mean()                                                  },ignore_index=True)
+                                 "Avg_Response":df_dcl_fnl[target_col].mean()                                                  },ignore_index=True)
                                       
     
 def cont_bin_NO_Miss(df_dcl_fnl,df_continuous_column,i,target_col,filename):
@@ -475,7 +475,7 @@ def cont_bin_NO_Miss(df_dcl_fnl,df_continuous_column,i,target_col,filename):
          df_dcl_fnl.groupby('Decile')[target_col].mean(),
          df_dcl_fnl.groupby('Decile')[df_continuous_column[i]].count()]
         ).T
-    continuous_target_nx.columns = ["MIN","MAX","Avg_Call_Volume","TOTAL"]
+    continuous_target_nx.columns = ["MIN","MAX","Avg_Response","TOTAL"]
 
     continuous_target_nx=continuous_target_nx.reset_index()
     list1=[]
@@ -488,7 +488,7 @@ def cont_bin_NO_Miss(df_dcl_fnl,df_continuous_column,i,target_col,filename):
 
     continuous_target_nx = pd.concat([pd.Series(list1),continuous_target_nx,pd.Series(list_vol_pct)],axis=1)
 
-    continuous_target_nx = continuous_target_nx[["Decile","MIN","MAX",0,"Avg_Call_Volume","TOTAL",1]]
+    continuous_target_nx = continuous_target_nx[["Decile","MIN","MAX",0,"Avg_Response","TOTAL",1]]
 
     continuous_target_nx = continuous_target_nx.rename(columns={continuous_target_nx.columns[len(continuous_target_nx.keys())-4]: "Range"})
     continuous_target_nx = continuous_target_nx.rename(columns={continuous_target_nx.columns[len(continuous_target_nx.keys())-1]: "Volume(%)"})
@@ -500,7 +500,7 @@ def cont_bin_NO_Miss(df_dcl_fnl,df_continuous_column,i,target_col,filename):
                                  "Range":" ",
                                  "TOTAL":continuous_target_nx['TOTAL'].sum(),
                                  "Volume(%)":continuous_target_nx['Volume(%)'].sum(),
-                                 "Avg_Call_Volume":df_dcl_fnl[target_col].mean()
+                                 "Avg_Response":df_dcl_fnl[target_col].mean()
                                  },ignore_index=True)
     
     
@@ -601,8 +601,8 @@ def plot_stat(df_categorical,title_name,target_col):
     plt.ylim((0,4))
     plt.legend(loc='upper right')
 
-    df_plot['Avg_Call_Volume'].plot(secondary_y=True,label=('Avg_Call_Volume'),color='r',rot=90)
-    plt.ylabel('Avg_Call_Volume',color='r')
+    df_plot['Avg_Response'].plot(secondary_y=True,label=('Avg_Response'),color='r',rot=90)
+    plt.ylabel('Avg_Response',color='r')
     plt.ylim((0,4))
     plt.legend(loc='upper right')
     
@@ -614,7 +614,7 @@ def plot_stat(df_categorical,title_name,target_col):
         axis_1.annotate('%s' %j,xy=(i,j),color='k')
         axis_1.annotate('%s' %i,xy=(i,j),color='k')
         
-    for i,j in zip(df_plot['Avg_Call_Volume'].index,df_plot['Avg_Call_Volume']):
+    for i,j in zip(df_plot['Avg_Response'].index,df_plot['Avg_Response']):
         i=round(i,2)
         j=round(j,2)
         axis_1.annotate('%s' %j,xy=(i,j),color='k')
@@ -651,7 +651,7 @@ def add_table_plot(df_categorical,in_file,sheet_nm,out_file,target_col):
     
     work_dir=os.getcwd()
     df_cont=pd.read_excel(in_file,header=None,sheet_name=sheet_nm)
-    df_cont.columns=['Levels','Avg_Call_Volume','TOTAL','Volume(%)']
+    df_cont.columns=['Levels','Avg_Response','TOTAL','Volume(%)']
     df_cont=df_cont.fillna('')
     wb=xlsxwriter.Workbook(out_file)
     ws=wb.add_worksheet(sheet_nm)
@@ -692,7 +692,7 @@ def add_table_plot(df_categorical,in_file,sheet_nm,out_file,target_col):
         if df_cont.iloc[:,0][i] == "Total":
             pos_max_loc=i
             df_plot=df_cont[pos_min_loc:pos_max_loc]
-            df_plot.columns=['Levels','Avg_Call_Volume','TOTAL','Volume(%)']
+            df_plot.columns=['Levels','Avg_Response','TOTAL','Volume(%)']
             df_plot=df_plot.reset_index()
             ''' Calls plot_stat() to create line plot and scatter plot '''
             plot_stat(df_categorical,title_name,target_col)
@@ -718,8 +718,8 @@ def cat_bin_trend(df_cat_fnl,df_categorical_column,i,target_col,filename):
          df_cat_fnl.groupby('Levels')[df_categorical_column[i]].count()]
         ).T
 
-    categorical_target_nx.columns = ["Avg_Call_Volume","TOTAL"]
-    categorical_target_nx['Avg_Call_Volume'] = categorical_target_nx['Avg_Call_Volume'].fillna(0)
+    categorical_target_nx.columns = ["Avg_Response","TOTAL"]
+    categorical_target_nx['Avg_Response'] = categorical_target_nx['Avg_Response'].fillna(0)
     categorical_target_nx['TOTAL'] = categorical_target_nx['TOTAL'].fillna(0)
 
     categorical_target_nx=categorical_target_nx.reset_index()
@@ -732,12 +732,12 @@ def cat_bin_trend(df_cat_fnl,df_categorical_column,i,target_col,filename):
         list_vol_pct.append(categorical_target_nx['TOTAL'][j]/categorical_target_nx['TOTAL'].sum())
     
     categorical_target_nx = pd.concat([categorical_target_nx,pd.Series(list_vol_pct)],axis=1)
-    categorical_target_nx = categorical_target_nx[["Levels","Avg_Call_Volume","TOTAL",0]]
+    categorical_target_nx = categorical_target_nx[["Levels","Avg_Response","TOTAL",0]]
     categorical_target_nx = categorical_target_nx.rename(columns={categorical_target_nx.columns[len(categorical_target_nx.keys())-1]: "Volume(%)"})
     categorical_target_nx = categorical_target_nx.sort_values(by=['TOTAL'], ascending=False)
 
     categorical_target_nx = categorical_target_nx.append({"Levels":"Total",
-                                     "Avg_Call_Volume":df_cat_fnl[target_col].mean(),
+                                     "Avg_Response":df_cat_fnl[target_col].mean(),
                                      "TOTAL":categorical_target_nx['TOTAL'].sum(),
                                      "Volume(%)":categorical_target_nx['Volume(%)'].sum()
                                                            },ignore_index=True)
@@ -775,7 +775,7 @@ def cat_bin(df,df_categorical,target_col,filename):
             categorical_target_nx.to_excel(writer,sheet_name='Categorical',startrow=n+1 , startcol=0,index = False)
             n += len(categorical_target_nx.index) + 10
 
-    writer.save()    
+    writer.save()      
 ```
 
 # Continuous Feature WOE,IV
